@@ -14,7 +14,7 @@ public class Order {
     private LocalDateTime createdAt;
     private Status status;
 
-    public Order() {
+    protected Order() {
         this.createdAt = LocalDateTime.now();
         this.status = Status.CREATED;
     }
