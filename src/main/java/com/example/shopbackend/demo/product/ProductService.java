@@ -26,4 +26,9 @@ public class ProductService {
     public Product create(final String name, int price, int stock) {
         return repository.save(new Product(name, price, stock));
     }
+
+    public void delete(Long id) {
+        Product product = getById(id);
+        repository.delete(product);
+    }
 }
