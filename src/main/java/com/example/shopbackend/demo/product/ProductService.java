@@ -1,8 +1,11 @@
 package com.example.shopbackend.demo.product;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
+import com.example.shopbackend.demo.common.NotFoundException;
 
 @Service
 public class ProductService {
@@ -10,6 +13,11 @@ public class ProductService {
 
     public ProductService(final ProductRepository repository) {
         this.repository = repository;
+    }
+
+    public Product getById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Product", id));
     }
 
     public List<Product> getAll() {
