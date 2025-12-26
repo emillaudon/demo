@@ -16,7 +16,7 @@ public class Order {
 
     public Order() {
         this.createdAt = LocalDateTime.now();
-        this.status = status.CREATED;
+        this.status = Status.CREATED;
     }
 
     public Long getId() {
