@@ -12,8 +12,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue
@@ -52,5 +54,9 @@ public class Order {
 
     public Status getStatus() {
         return status;
+    }
+
+    public List<OrderItem> getItems() {
+        return items;
     }
 }

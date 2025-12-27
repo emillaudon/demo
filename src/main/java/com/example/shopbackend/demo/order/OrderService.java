@@ -1,5 +1,7 @@
 package com.example.shopbackend.demo.order;
 
+import org.springframework.stereotype.Service;
+
 import com.example.shopbackend.demo.orderitem.CreateOrderItemRequest;
 import com.example.shopbackend.demo.orderitem.OrderItem;
 import com.example.shopbackend.demo.product.Product;
@@ -8,6 +10,7 @@ import com.example.shopbackend.demo.product.UpdateProductRequest;
 
 import jakarta.transaction.Transactional;
 
+@Service
 public class OrderService {
 
     private final ProductService productService;
