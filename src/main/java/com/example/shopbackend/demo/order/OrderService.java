@@ -2,6 +2,7 @@ package com.example.shopbackend.demo.order;
 
 import org.springframework.stereotype.Service;
 
+import com.example.shopbackend.demo.common.NotFoundException;
 import com.example.shopbackend.demo.orderitem.CreateOrderItemRequest;
 import com.example.shopbackend.demo.orderitem.OrderItem;
 import com.example.shopbackend.demo.product.Product;
@@ -18,6 +19,11 @@ public class OrderService {
     public OrderService(ProductService productService, OrderRepository repository) {
         this.productService = productService;
         this.repository = repository;
+    }
+
+    public Order getById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Order", id));
     }
 
     @Transactional
