@@ -1,5 +1,8 @@
 package com.example.shopbackend.demo.order;
 
+import java.util.List;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.shopbackend.demo.common.NotFoundException;
@@ -19,6 +22,10 @@ public class OrderService {
     public OrderService(ProductService productService, OrderRepository repository) {
         this.productService = productService;
         this.repository = repository;
+    }
+
+    public List<Order> getAll() {
+        return repository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 
     public Order getById(Long id) {
