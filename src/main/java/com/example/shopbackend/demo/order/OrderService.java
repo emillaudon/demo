@@ -43,8 +43,13 @@ public class OrderService {
         Order order = getById(id);
 
         Status status = Status.parseStatus(request.status());
-        // TODO: Restock on cancel
+
         order.changeStatus(status);
+
+        for (OrderItem orderItem : order.getItems()) {
+            Product product = orderItem.getProduct();
+            product.increaseStock(orderItem.getQuantity());
+        }
 
         return order;
     }

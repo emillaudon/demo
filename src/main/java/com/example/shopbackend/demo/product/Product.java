@@ -34,6 +34,12 @@ public class Product {
         this.stock -= amount;
     }
 
+    public void increaseStock(int amount) {
+        if (amount <= 0)
+            throw new IllegalArgumentException("Amount must be > 0");
+        this.stock += amount;
+    }
+
     public Long getId() {
         return id;
     }

@@ -9,7 +9,10 @@ import com.example.shopbackend.demo.common.InvalidStatusTransitionException;
 import com.example.shopbackend.demo.orderitem.OrderItem;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -23,6 +26,8 @@ public class Order {
     @GeneratedValue
     private Long id;
     private LocalDateTime createdAt;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Status status;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
