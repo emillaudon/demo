@@ -6,7 +6,6 @@ import com.example.shopbackend.demo.orderitem.CreateOrderItemRequest;
 import com.example.shopbackend.demo.orderitem.OrderItem;
 import com.example.shopbackend.demo.product.Product;
 import com.example.shopbackend.demo.product.ProductService;
-import com.example.shopbackend.demo.product.UpdateProductRequest;
 
 import jakarta.transaction.Transactional;
 
