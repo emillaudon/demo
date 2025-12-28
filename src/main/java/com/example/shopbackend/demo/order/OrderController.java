@@ -3,10 +3,12 @@ package com.example.shopbackend.demo.order;
 import java.net.URI;
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -34,9 +36,17 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderDto> getById(@PathVariable Long id) {
-        System.out.println(id);
         Order order = orderService.getById(id);
         return ResponseEntity.ok(OrderDto.from(order));
+    }
+
+    @GetMapping(params = "status")
+    public List<OrderDto> getByStatus(@RequestParam(required = false) String status) {
+        System.out.println(orderService.getByStatus(status));
+        return orderService.getByStatus(status)
+                .stream()
+                .map(OrderDto::from)
+                .toList();
     }
 
     @PostMapping

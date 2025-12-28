@@ -33,9 +33,9 @@ public class OrderService {
                 .orElseThrow(() -> new NotFoundException("Order", id));
     }
 
-    public List<Order> getByStatus(Status status) {
-        // repository.findBy(null, null)
-        return repository.findAll();
+    public List<Order> getByStatus(String rawStatus) {
+        Status status = Status.parseStatus(rawStatus);
+        return repository.findByStatus(status);
     }
 
     @Transactional
