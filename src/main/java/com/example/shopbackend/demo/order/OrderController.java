@@ -71,6 +71,12 @@ public class OrderController {
                 .toList();
     }
 
+    @GetMapping("/{id}/summary")
+    public OrderSummaryDto getOrderSummary(@PathVariable Long id) {
+        Order order = orderService.getById(id);
+        return OrderSummaryDto.from(order);
+    }
+
     @PostMapping
     public ResponseEntity<OrderDto> create(@Valid @RequestBody CreateOrderRequest request) {
         Order savedOrder = orderService.create(request);

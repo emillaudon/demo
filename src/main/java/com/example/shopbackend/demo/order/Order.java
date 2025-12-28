@@ -1,5 +1,6 @@
 package com.example.shopbackend.demo.order;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,5 +74,18 @@ public class Order {
 
     public List<OrderItem> getItems() {
         return items;
+    }
+
+    public BigDecimal getTotalValue() {
+        BigDecimal totalValue = BigDecimal.ZERO;
+
+        for (OrderItem item : items) {
+            BigDecimal unitPrice = BigDecimal.valueOf(item.getUnitPrice());
+            BigDecimal quantity = BigDecimal.valueOf(item.getQuantity());
+            BigDecimal lineTotal = unitPrice.multiply(quantity);
+            totalValue = totalValue.add(lineTotal);
+        }
+
+        return totalValue;
     }
 }
