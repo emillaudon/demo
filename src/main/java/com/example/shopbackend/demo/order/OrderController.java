@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.shopbackend.demo.orderitem.OrderItemDto;
+
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -39,6 +41,15 @@ public class OrderController {
     public ResponseEntity<OrderDto> getById(@PathVariable Long id) {
         Order order = orderService.getById(id);
         return ResponseEntity.ok(OrderDto.from(order));
+    }
+
+    @GetMapping("/{id}/items")
+    public List<OrderItemDto> getOrderItems(@PathVariable Long id) {
+        Order order = orderService.getById(id);
+        return order.getItems()
+                .stream()
+                .map(OrderItemDto::from)
+                .toList();
     }
 
     @GetMapping(params = "status")
