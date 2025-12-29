@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.shopbackend.demo.common.InvalidDateRangeException;
 import com.example.shopbackend.demo.common.InvalidPriceRangeException;
 import com.example.shopbackend.demo.common.NotFoundException;
 
