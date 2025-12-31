@@ -1,20 +1,15 @@
 package com.example.shopbackend.demo.order;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.shopbackend.demo.orderitem.CreateOrderItemRequest;
-import com.example.shopbackend.demo.orderitem.OrderItem;
-import com.example.shopbackend.demo.product.Product;
-import com.example.shopbackend.demo.product.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -26,9 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @WebMvcTest(OrderController.class)
 public class OrderControllerTest {
