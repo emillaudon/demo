@@ -11,7 +11,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public @SpringBootTest @AutoConfigureMockMvc class OrderControllerIT {
+@SpringBootTest
+@AutoConfigureMockMvc
+public class OrderControllerIT {
 
     @Autowired
     MockMvc mockMvc;
@@ -64,7 +66,7 @@ public @SpringBootTest @AutoConfigureMockMvc class OrderControllerIT {
     }
 
     @Test
-    void cancel_missingOrder_shouldReturn400() throws Exception {
+    void cancel_missingOrder_shouldReturn404() throws Exception {
         mockMvc.perform(post("/orders/1/cancel"))
                 .andExpect(status().isNotFound());
     }

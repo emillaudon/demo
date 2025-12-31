@@ -26,8 +26,6 @@ import org.springframework.http.MediaType;
 @WebMvcTest(OrderController.class)
 public class OrderControllerTest {
     @Autowired
-    OrderController orderController;
-    @Autowired
     MockMvc mockMvc;
     @Autowired
     ObjectMapper objectMapper;

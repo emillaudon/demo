@@ -14,7 +14,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public @SpringBootTest @AutoConfigureMockMvc class ProductControllerIT {
+@SpringBootTest
+@AutoConfigureMockMvc
+public class ProductControllerIT {
 
     @Autowired
     MockMvc mockMvc;
