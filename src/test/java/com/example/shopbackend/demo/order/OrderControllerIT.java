@@ -4,7 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -17,6 +20,8 @@ public class OrderControllerIT {
 
     @Autowired
     MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     void getById_missingId_shouldReturn404() throws Exception {
@@ -73,7 +78,11 @@ public class OrderControllerIT {
 
     @Test
     void updateStatus_missingOrder_shouldReturn404() throws Exception {
-        mockMvc.perform(patch("/orders/1/updates"))
+        UpdateOrderStatusRequest req = new UpdateOrderStatusRequest("PAID");
+
+        mockMvc.perform(patch("/orders/1/status")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isNotFound());
     }
 }
