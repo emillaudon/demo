@@ -57,7 +57,7 @@ public class ProductController {
                 .toList();
     }
 
-    @GetMapping(params = { "!inStock", "!from", "!to" })
+    @GetMapping(params = { "!inStock", "!from", "!to", "!query" })
     public List<ProductDto> getAll() {
         return productService.getAll()
                 .stream()
