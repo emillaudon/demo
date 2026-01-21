@@ -34,5 +34,6 @@ build/
 
 # Local uploaded images
 /uploads/
+/uploads/**
 /data/
 /tmp/
