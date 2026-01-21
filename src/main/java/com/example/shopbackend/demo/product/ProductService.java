@@ -2,9 +2,13 @@ package com.example.shopbackend.demo.product;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.shopbackend.demo.common.ImageTooLargeException;
+import com.example.shopbackend.demo.common.InvalidImageTypeException;
 import com.example.shopbackend.demo.common.InvalidPriceRangeException;
 import com.example.shopbackend.demo.common.NotFoundException;
 import com.example.shopbackend.demo.common.OutOfStockException;
@@ -18,7 +22,10 @@ public class ProductService {
     private final ProductStockGateway productStockGateway;
     private final ImageStorage imageStorage;
 
-    public ProductService(final ProductRepository repository, final ProductStockGateway productStockGateway, final ImageStorage imageStorage) {
+    private static final Logger log = LoggerFactory.getLogger(ProductService.class);
+
+    public ProductService(final ProductRepository repository, final ProductStockGateway productStockGateway,
+            final ImageStorage imageStorage) {
         this.repository = repository;
         this.productStockGateway = productStockGateway;
         this.imageStorage = imageStorage;
@@ -70,6 +77,7 @@ public class ProductService {
     @Transactional
     public void delete(Long id) {
         Product product = getById(id);
+        deleteImage(id);
         repository.delete(product);
     }
 
@@ -87,27 +95,63 @@ public class ProductService {
     }
 
     public Product uploadImage(long id, MultipartFile file) {
-        if (file.isEmpty()) throw new IllegalArgumentException("Uploaded file is empty");
+        if (file.isEmpty())
+            throw new IllegalArgumentException("Uploaded file is empty");
+        long maxBytes = 5L * 1024 * 1024;
+        long actualBytes = file.getSize();
+
+        if (actualBytes > maxBytes) {
+            throw new ImageTooLargeException(maxBytes, actualBytes);
+        }
 
         String contentType = file.getContentType();
-        if (contentType == null) throw new IllegalArgumentException("File has no content type");
+        if (contentType == null)
+            throw new InvalidImageTypeException(contentType,
+                    List.of("image/png", "image/jpeg", "image/jpg", "image/webp"));
 
         String extension = switch (contentType) {
             case "image/png" -> ".png";
             case "image/jpeg" -> ".jpeg";
             case "image/jpg" -> ".jpg";
             case "image/webp" -> ".webp";
-            default -> throw new IllegalArgumentException("Unsupported image type: " + contentType);
+            default -> throw new InvalidImageTypeException(contentType,
+                    List.of("image/png", "image/jpeg", "image/jpg", "image/webp"));
         };
 
         Product product = getById(id);
 
         String imageKey = "products/" + id + "/main" + extension;
 
+        if (product.getImageKey() != null && !product.getImageKey().equals(imageKey))
+            deleteImage(id);
+
         imageStorage.save(file, imageKey);
 
         product.setImageKey(imageKey);
 
         return repository.save(product);
+    }
+
+    @Transactional
+    public Product deleteImage(long id) {
+        Product product = getById(id);
+        String oldKey = product.getImageKey();
+
+        if (oldKey == null)
+            return product;
+
+        product.setImageKey(null);
+        repository.save(product);
+
+        try {
+            imageStorage.delete(oldKey);
+        } catch (Exception e) {
+            log.warn(
+                    "Failed to delete image from storage. productId={}, imageKey={}",
+                    id,
+                    oldKey,
+                    e);
+        }
+        return product;
     }
 }

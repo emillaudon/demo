@@ -13,6 +13,45 @@ import org.springframework.http.HttpStatus;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+        
+        @ExceptionHandler(MaxUploadSizeException.class)
+        @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE) 
+        public ApiError handleUploadSizeAboveMax(MaxUploadSizeException ex) {
+                return new ApiError(
+                        "UPLOAD_SIZE_ABOVE_MAX",
+                        ex.getMessage(),
+                        Map.of(
+                                "size", ex.getActualBytes(),
+                                "max", ex.getMaxBytes()
+                        )
+                );
+        }
+
+        @ExceptionHandler(InvalidImageTypeException.class)
+        @ResponseStatus(HttpStatus.BAD_REQUEST)
+        public ApiError handleImageWrongType(InvalidImageTypeException ex) {
+                return new ApiError(
+                        "IMAGE_WRONG_TYPE",
+                        ex.getMessage(),
+                        Map.of(
+                                "type", ex.getContentType(),
+                                "allowed", ex.getAllowed()
+                        )
+                );
+        }
+
+        @ExceptionHandler(ImageTooLargeException.class)
+        @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE)
+        public ApiError handleImageTooLarge(ImageTooLargeException ex) {
+                return new ApiError(
+                        "IMAGE_TOO_LARGE",
+                        ex.getMessage(),
+                        Map.of(
+                                "size", ex.getActualBytes(),
+                                "max", ex.getMaxBytes()
+                        )
+                );
+        }
 
         @ExceptionHandler(InvalidPriceRangeException.class)
         @ResponseStatus(HttpStatus.BAD_REQUEST)
