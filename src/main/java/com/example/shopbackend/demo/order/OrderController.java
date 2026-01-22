@@ -37,6 +37,14 @@ public class OrderController {
                 .toList();
     }
 
+    @GetMapping("/mine")
+    public List<OrderDto> getMine() {
+        return orderService.getMine()
+                .stream()
+                .map(OrderDto::from)
+                .toList();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<OrderDto> getById(@PathVariable Long id) {
         Order order = orderService.getById(id);

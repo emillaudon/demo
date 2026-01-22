@@ -13,44 +13,57 @@ import org.springframework.http.HttpStatus;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-        
+
+        @ExceptionHandler(BadCredentialsException.class)
+        @ResponseStatus(HttpStatus.UNAUTHORIZED)
+        public ApiError handleBadCredentials(BadCredentialsException ex) {
+                return new ApiError(
+                                "BAD_CREDENTIALS",
+                                ex.getMessage(),
+                                Map.of());
+        }
+
+        @ExceptionHandler(EmailAlreadyInUseException.class)
+        @ResponseStatus(HttpStatus.CONFLICT)
+        public ApiError handleEmailAlreadyInUse(EmailAlreadyInUseException ex) {
+                return new ApiError(
+                                "EMAIL_IN_USE",
+                                ex.getMessage(),
+                                Map.of(
+                                                "email", ex.getEmail()));
+        }
+
         @ExceptionHandler(MaxUploadSizeException.class)
-        @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE) 
+        @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE)
         public ApiError handleUploadSizeAboveMax(MaxUploadSizeException ex) {
                 return new ApiError(
-                        "UPLOAD_SIZE_ABOVE_MAX",
-                        ex.getMessage(),
-                        Map.of(
-                                "size", ex.getActualBytes(),
-                                "max", ex.getMaxBytes()
-                        )
-                );
+                                "UPLOAD_SIZE_ABOVE_MAX",
+                                ex.getMessage(),
+                                Map.of(
+                                                "size", ex.getActualBytes(),
+                                                "max", ex.getMaxBytes()));
         }
 
         @ExceptionHandler(InvalidImageTypeException.class)
         @ResponseStatus(HttpStatus.BAD_REQUEST)
         public ApiError handleImageWrongType(InvalidImageTypeException ex) {
                 return new ApiError(
-                        "IMAGE_WRONG_TYPE",
-                        ex.getMessage(),
-                        Map.of(
-                                "type", ex.getContentType(),
-                                "allowed", ex.getAllowed()
-                        )
-                );
+                                "IMAGE_WRONG_TYPE",
+                                ex.getMessage(),
+                                Map.of(
+                                                "type", ex.getContentType(),
+                                                "allowed", ex.getAllowed()));
         }
 
         @ExceptionHandler(ImageTooLargeException.class)
         @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE)
         public ApiError handleImageTooLarge(ImageTooLargeException ex) {
                 return new ApiError(
-                        "IMAGE_TOO_LARGE",
-                        ex.getMessage(),
-                        Map.of(
-                                "size", ex.getActualBytes(),
-                                "max", ex.getMaxBytes()
-                        )
-                );
+                                "IMAGE_TOO_LARGE",
+                                ex.getMessage(),
+                                Map.of(
+                                                "size", ex.getActualBytes(),
+                                                "max", ex.getMaxBytes()));
         }
 
         @ExceptionHandler(InvalidPriceRangeException.class)
