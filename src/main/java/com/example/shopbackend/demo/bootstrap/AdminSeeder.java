@@ -17,7 +17,7 @@ public class AdminSeeder implements ApplicationRunner {
 
     // Remove & put in env
     // @Value("${ADMIN_EMAIL:}")
-    private String adminEmail = "admin";
+    private String adminEmail = "admin@admin.se";
 
     // @Value("${ADMIN_PASSWORD:}")
     private String adminPassword = "123";
