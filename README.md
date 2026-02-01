@@ -7,6 +7,10 @@ The focus is on clean structure, domain-driven business logic, and proper handli
 
 > ⚠️ This project is a work in progress and is still under active development.
 
+## Run the full stack
+To run the complete application (frontend + backend + MySQL) locally, use the stack repo:  
+https://github.com/emillaudon/shop-stack
+
 ## Tech stack
 - Java
 - Spring Boot
